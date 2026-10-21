@@ -1,0 +1,5 @@
+.hosted-field{height:46px;border:1px solid #aeb4c0;border-radius:3px;background:#fff;overflow:hidden}
+.payment-consent{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.45;margin:12px 0 16px}
+.payment-consent input{width:18px;height:18px;flex:none;margin-top:1px}
+.payment-error{display:none;background:#fff0ef;color:#b42318;border:1px solid #f5b7b1;border-radius:4px;padding:10px;margin:0 0 12px;font-size:13px}
+.payment-error:not(:empty){display:block}

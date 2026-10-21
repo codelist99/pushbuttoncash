@@ -1,1 +1,62 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Secure Checkout | Push Button System</title><link rel="stylesheet" href="funnel.css"></head><body data-page="checkout"><div class="topbar">SECURE CHECKOUT — 256-BIT ENCRYPTED</div><main class="checkout-shell"><section class="checkout-hero"><h1><span class="red">Congratulations!</span> Your Order Is Reserved</h1><p>Success using our software is how we measure OUR success.</p><div class="green-strip">Complete your order below for immediate product access</div></section><div class="grid"><section class="card"><h2>1. Contact Information</h2><div class="field-row"><div class="field"><label>First name</label><input autocomplete="given-name" placeholder="First name"></div><div class="field"><label>Last name</label><input autocomplete="family-name" placeholder="Last name"></div></div><div class="field"><label>Email address</label><input type="email" autocomplete="email" placeholder="you@example.com"></div><div class="field"><label>Phone number</label><input type="tel" autocomplete="tel" placeholder="Phone number"></div><h2>2. Order Details</h2><div class="product"><div><strong>Push Button System</strong><small>One-time payment • Instant access</small></div><strong>$67.00</strong></div><label class="addon"><input type="checkbox" data-addon data-price="39" data-title="Turbo Charged Profits"><span><strong>Turbo Charged Profits</strong><p>Instantly accelerate your setup with the Turbo Charged Profits add-on.</p></span><strong>$39</strong></label><label class="addon"><input type="checkbox" data-addon data-price="24" data-title="Premium VIP Support"><span><strong>Premium VIP Support</strong><p>Skip the line and get dedicated support to accelerate your results.</p></span><strong>$24</strong></label><label class="addon"><input type="checkbox" data-addon data-price="95" data-title="$300 Million Dollar Interview"><span><strong>$300 Million Dollar Interview</strong><p>Get instant access to the exclusive long-form interview.</p></span><strong>$95</strong></label></section><aside class="card"><h2>Your Order Summary</h2><div class="notice">Payment details are completed securely on the existing Fanbasis checkout.</div><div class="order-items" data-order-items></div><div class="total"><span>Total</span><span data-total>$67.00</span></div><button class="secure-btn" data-live-checkout>CONTINUE TO SECURE PAYMENT →</button><p class="trust">🔒 Secure transaction • Immediate access</p><div class="guarantee"><div class="seal">MONEY BACK<br>GUARANTEE</div><div><strong>Our Satisfaction Promise</strong><p>If the program is not right for you, contact support according to the refund policy.</p></div></div></aside></div></main><footer class="footer">© Push Button System • Privacy • Terms • Refund Policy<br>This site is not endorsed by Facebook.</footer><script src="funnel.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Secure Checkout | Push Button System</title>
+  <link rel="preconnect" href="https://secure.nmi.com">
+  <link rel="stylesheet" href="funnel.css">
+  <link rel="stylesheet" href="checkout.css">
+</head>
+<body data-page="checkout">
+  <div class="topbar">SECURE CHECKOUT — 256-BIT ENCRYPTED</div>
+  <main class="checkout-shell">
+    <section class="checkout-hero">
+      <h1><span class="red">Congratulations!</span> Your Order Is Reserved</h1>
+      <p>Success using our software is how we measure OUR success.</p>
+      <div class="green-strip">Complete your order below for immediate product access</div>
+    </section>
+    <form id="paymentForm" class="grid">
+      <section class="card">
+        <h2>1. Contact Information</h2>
+        <div class="field-row">
+          <div class="field"><label>First name</label><input id="firstName" autocomplete="given-name" placeholder="First name" required></div>
+          <div class="field"><label>Last name</label><input id="lastName" autocomplete="family-name" placeholder="Last name" required></div>
+        </div>
+        <div class="field"><label>Email address</label><input id="email" type="email" autocomplete="email" placeholder="you@example.com" required></div>
+        <div class="field"><label>Phone number</label><input id="phone" type="tel" autocomplete="tel" placeholder="Phone number" required></div>
+        <h2>2. Order Details</h2>
+        <div class="product"><div><strong>Push Button System</strong><small>One-time payment • Instant access</small></div><strong>$67.00</strong></div>
+        <label class="addon"><input type="checkbox" data-addon="turbo" data-price="39" data-title="Turbo Charged Profits"><span><strong>Turbo Charged Profits</strong><p>Instantly accelerate your setup with the Turbo Charged Profits add-on.</p></span><strong>$39</strong></label>
+        <label class="addon"><input type="checkbox" data-addon="vip" data-price="24" data-title="Premium VIP Support"><span><strong>Premium VIP Support</strong><p>Skip the line and get dedicated support to accelerate your results.</p></span><strong>$24</strong></label>
+        <label class="addon"><input type="checkbox" data-addon="interview" data-price="95" data-title="$300 Million Dollar Interview"><span><strong>$300 Million Dollar Interview</strong><p>Get instant access to the exclusive long-form interview.</p></span><strong>$95</strong></label>
+      </section>
+      <aside class="card">
+        <h2>3. Secure Payment</h2>
+        <div class="field"><label>Card number</label><div id="cardNumber" class="hosted-field"></div></div>
+        <div class="field-row">
+          <div class="field"><label>Expiration</label><div id="cardExpiration" class="hosted-field"></div></div>
+          <div class="field"><label>CVV</label><div id="cardCvv" class="hosted-field"></div></div>
+        </div>
+        <div class="field"><label>Billing address</label><input id="address" autocomplete="street-address" required></div>
+        <div class="field-row">
+          <div class="field"><label>City</label><input id="city" autocomplete="address-level2" required></div>
+          <div class="field"><label>State</label><input id="state" autocomplete="address-level1" required></div>
+        </div>
+        <div class="field"><label>ZIP code</label><input id="zip" autocomplete="postal-code" required></div>
+        <h2>Your Order Summary</h2>
+        <div class="notice">Your card is tokenized directly by NMI and is never stored on this website.</div>
+        <div class="order-items" data-order-items></div>
+        <div class="total"><span>Total</span><span data-total>$67.00</span></div>
+        <label class="payment-consent"><input id="consent" type="checkbox" required><span>I authorize this charge and securely storing my payment method with NMI for optional one-click upgrades I choose on the following pages.</span></label>
+        <div id="paymentError" class="payment-error" role="alert"></div>
+        <button id="checkoutButton" class="secure-btn" type="button" disabled>LOADING SECURE PAYMENT…</button>
+        <p class="trust">🔒 Secure transaction • Immediate access</p>
+        <div class="guarantee"><div class="seal">MONEY BACK<br>GUARANTEE</div><div><strong>Our Satisfaction Promise</strong><p>If the program is not right for you, contact support according to the refund policy.</p></div></div>
+      </aside>
+    </form>
+  </main>
+  <footer class="footer">© Push Button System • Privacy • Terms • Refund Policy<br>This site is not endorsed by Facebook.</footer>
+  <script src="funnel.js"></script>
+</body>
+</html>
