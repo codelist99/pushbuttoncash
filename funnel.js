@@ -18,7 +18,9 @@ function initCheckout(){
 }
 
 function initUpsell(){
-  const accept=document.querySelector('[data-accept]'),skip=document.querySelector('[data-skip]'),product=location.pathname.includes('upsell-1')?'oto1':'oto2',next=document.body.dataset.next;
+  const accept=document.querySelector('[data-accept]'),skip=document.querySelector('[data-skip]'),product=document.body.dataset.product,next=document.body.dataset.next;
+  const video=document.querySelector('.offer-video');
+  if(video) Object.assign(video.style,{display:'block',width:'100%',maxWidth:'720px',aspectRatio:'16 / 9',background:'#111a3a',margin:'24px auto',objectFit:'contain'});
   accept.addEventListener('click',async()=>{if(accept.disabled)return;accept.disabled=true;const label=accept.textContent;accept.textContent='SECURELY PROCESSING…';try{const response=await fetch('/api/purchase',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({product})}),data=await response.json();if(!response.ok)throw Error(data.error||'Upgrade could not be completed');location.href=data.next+passParams()}catch(error){accept.disabled=false;accept.textContent=label;alert(error.message)}});
   skip.addEventListener('click',event=>{event.preventDefault();location.href=next+passParams()});
 }

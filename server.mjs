@@ -12,8 +12,12 @@ const port = Number(process.env.PORT || 3000);
 const secret = process.env.SESSION_SECRET || process.env.NMI_PRIVATE_KEY || 'configure-session-secret';
 const products = Object.freeze({
   front: { name:'Push Button System', amount:67, next:'/upsell-1.html' },
-  oto1: { name:'Gold Package', amount:297, next:'/upsell-2.html' },
-  oto2: { name:'Platinum Package', amount:299, next:'/thank-you.html' }
+  traffic297: { name:'Unlimited Traffic Package', amount:297, next:'/upsell-2.html' },
+  traffic197: { name:'Unlimited Traffic Package — Special Price', amount:197, next:'/upsell-2.html' },
+  traffic97: { name:'Unlimited Traffic Package — Final Price', amount:97, next:'/upsell-2.html' },
+  websites297: { name:'100 Money-Sucking Websites', amount:297, next:'/thank-you.html' },
+  websites197: { name:'100 Money-Sucking Websites — Special Price', amount:197, next:'/thank-you.html' },
+  websites97: { name:'100 Money-Sucking Websites — Final Price', amount:97, next:'/thank-you.html' }
 });
 const addons = Object.freeze({
   turbo: { name:'Turbo Charged Profits', amount:39 },
