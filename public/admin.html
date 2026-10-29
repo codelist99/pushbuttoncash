@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#07111f" />
+    <title>Push Button Cash Campaign Command</title>
+    <link rel="stylesheet" href="/assets/admin.css" />
+    <link rel="stylesheet" href="/assets/admin-refunds.css" />
+    <link rel="stylesheet" href="/assets/admin-profit.css" />
+  </head>
+  <body>
+    <header class="mast">
+      <div class="brand">
+        <span class="brand-mark">PB</span>
+        <div><strong>Push Button Cash</strong><small>Campaign Command</small></div>
+      </div>
+      <div class="live">
+        <i></i><span>LIVE OPERATIONS</span><b id="clock"></b>
+      </div>
+    </header>
+    <nav class="tabs" id="tabs">
+      <button data-tab="overview" class="active">Overview</button
+      ><button data-tab="funnel">Funnel</button
+      ><button data-tab="payments">Payments</button
+      ><button data-tab="offers">Offers</button
+      ><button data-tab="acquisition">Acquisition</button
+      ><button data-tab="leads">Leads</button
+      ><button data-tab="buyers">Buyers</button
+      ><button data-tab="automation">Automation</button>
+    </nav>
+    <section class="controlbar">
+      <div>
+        <label>Reporting window</label
+        ><select id="preset">
+          <option value="12">Last 12 hours</option>
+          <option value="24" selected>Last 24 hours</option>
+          <option value="72">Last 3 days</option>
+          <option value="168">Last 7 days</option>
+          <option value="720">Last 30 days</option>
+          <option value="custom">Custom range</option>
+        </select>
+      </div>
+      <div class="custom hidden" id="custom">
+        <label>Start<input id="start" type="datetime-local" /></label
+        ><label>End<input id="end" type="datetime-local" /></label>
+      </div>
+      <button class="refresh" id="refresh">↻ Refresh data</button
+      ><span class="updated" id="updated">Loading live data…</span>
+    </section>
+    <main>
+      <section class="tabpage active" id="tab-overview">
+        <div id="alerts" class="alerts"></div>
+        <div id="primary-kpis" class="kpi-grid overview-kpis"></div>
+        <div class="grid two">
+          <article class="panel">
+            <div class="panel-title">
+              <div>
+                <h2>Campaign performance</h2>
+                <p>Traffic, leads, buyers and revenue over time</p>
+              </div>
+            </div>
+            <div id="trend" class="chart"></div>
+          </article>
+          <article class="panel profit-panel">
+            <div class="panel-title profit-title">
+              <div>
+                <h2>Profit logistics</h2>
+                <p>Revenue, traffic investment and profit</p>
+              </div>
+              <div class="mini-tabs">
+                <button class="active" data-profit-tab="overview">
+                  Overview</button
+                ><button data-profit-tab="spend">Traffic spend</button
+                ><button data-profit-tab="refunds">Refunds</button
+                ><button data-profit-tab="chargebacks">Chargebacks</button>
+              </div>
+            </div>
+            <div id="profit-overview" class="profit-view">
+              <div class="profit-cards">
+                <div>
+                  <span>Overall revenue</span
+                  ><strong id="profit-revenue">$0.00</strong>
+                </div>
+                <div>
+                  <span>Refunds</span><strong id="profit-refunds">$0.00</strong>
+                </div>
+                <div>
+                  <span>Chargebacks</span
+                  ><strong id="profit-chargebacks">$0.00</strong>
+                </div>
+                <div>
+                  <span>Traffic spend</span
+                  ><strong id="profit-spend">$0.00</strong>
+                </div>
+                <div class="profit-total">
+                  <span>Overall profit</span
+                  ><strong id="profit-total">$0.00</strong>
+                </div>
+              </div>
+              <div class="profit-equation">
+                <span>Gross revenue − refunds − chargebacks − traffic cost</span
+                ><b id="profit-equation"
+                  >$0.00 − $0.00 − $0.00 − $0.00 = $0.00</b
+                >
+              </div>
+            </div>
+            <div id="profit-spend-tab" class="profit-view hidden">
+              <form id="traffic-spend-form" class="spend-form">
+                <input name="id" type="hidden" /><input
+                  name="spend_date"
+                  type="date"
+                  required
+                /><input
+                  name="amount"
+                  type="number"
+                  min="0.01"
+                  step="0.01"
+                  placeholder="Amount spent"
+                  required
+                /><input
+                  name="clicks"
+                  type="number"
+                  min="0"
+                  step="1"
+                  placeholder="Ad clicks (optional)"
+                /><input
+                  name="impressions"
+                  type="number"
+                  min="0"
+                  step="1"
+                  placeholder="Ad impressions (optional)"
+                /><input
+                  name="source"
+                  placeholder="Traffic source (optional)"
+                /><input name="notes" placeholder="Notes (optional)" /><button
+                  class="save-spend-button"
+                >
+                  Save spend</button
+                ><button type="button" class="cancel-spend-edit hidden">
+                  Cancel edit
+                </button>
+              </form>
+              <div class="spend-ledger">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Source</th>
+                      <th>Clicks</th>
+                      <th>Impressions</th>
+                      <th>Notes</th>
+                      <th>Amount</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="spend-rows"></tbody>
+                </table>
+              </div>
+            </div>
+            <div id="profit-refunds-tab" class="profit-view hidden">
+              <div class="spend-ledger finance-ledger">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Customer</th>
+                      <th>Product</th>
+                      <th>Type</th>
+                      <th>Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody id="refund-rows"></tbody>
+                </table>
+              </div>
+            </div>
+            <div id="profit-chargebacks-tab" class="profit-view hidden">
+              <div class="spend-ledger finance-ledger">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Customer</th>
+                      <th>Product</th>
+                      <th>Transaction</th>
+                      <th>Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody id="chargeback-rows"></tbody>
+                </table>
+              </div>
+              <p class="processor-note">
+                Chargebacks populate when supplied by the processor dispute
+                feed.
+              </p>
+            </div>
+          </article>
+          <article class="panel">
+            <div class="panel-title">
+              <div>
+                <h2>Unit economics</h2>
+                <p>Monetization efficiency</p>
+              </div>
+            </div>
+            <div id="economics" class="metric-list"></div>
+          </article>
+          <article class="panel">
+            <div class="panel-title">
+              <div>
+                <h2>Traffic quality</h2>
+                <p>Engagement and intent signals</p>
+              </div>
+            </div>
+            <div id="quality" class="metric-list"></div>
+          </article>
+          <article class="panel">
+            <div class="panel-title">
+              <div>
+                <h2>Step 2 webinar engagement</h2>
+                <p>“Click Here To See How” activity</p>
+              </div>
+            </div>
+            <div id="webinar-engagement" class="metric-list"></div>
+          </article>
+        </div>
+      </section>
+      <section class="tabpage" id="tab-funnel">
+        <div class="section-head">
+          <div>
+            <h1>Conversion Funnel</h1>
+            <p>See where traffic advances or leaks.</p>
+          </div>
+        </div>
+        <div id="funnel-kpis" class="kpi-grid compact"></div>
+        <div class="grid two">
+          <article class="panel">
+            <div class="panel-title">
+              <div>
+                <h2>Customer journey</h2>
+                <p>Unique sessions at each stage</p>
+              </div>
+            </div>
+            <div id="funnel-chart" class="funnel"></div>
+          </article>
+          <article class="panel">
+            <div class="panel-title">
+              <div>
+                <h2>VSL retention</h2>
+                <p>Milestone tracking for supported players</p>
+              </div>
+            </div>
+            <div id="vsl-chart" class="bars"></div>
+          </article>
+          <article class="panel">
+            <div class="panel-title">
+              <div>
+                <h2>Page traffic</h2>
+                <p>Unique visitors and repeat loads</p>
+              </div>
+            </div>
+            <div id="routes-table"></div>
+          </article>
+          <article class="panel">
+            <div class="panel-title">
+              <div>
+                <h2>Device mix</h2>
+                <p>Captured on new visits</p>
+              </div>
+            </div>
+            <div id="devices"></div>
+          </article>
+        </div>
+      </section>
+      <section class="tabpage" id="tab-payments">
+        <div class="section-head">
+          <div>
+            <h1>Payment Operations</h1>
+            <p>Gateway health, issuer decisions and transaction activity.</p>
+          </div>
+          <div class="actions">
+            <input
+              id="order-search"
+              placeholder="Search customer, product or transaction"
+            /><button id="order-search-button">Search</button>
+          </div>
+        </div>
+        <div id="payment-kpis" class="kpi-grid compact"></div>
+        <div class="grid two">
+          <article class="panel">
+            <div class="panel-title">
+              <div>
+                <h2>Gateway response intelligence</h2>
+                <p>Responses grouped by outcome</p>
+              </div>
+            </div>
+            <div id="responses"></div>
+          </article>
+          <article class="panel">
+            <div class="panel-title">
+              <div>
+                <h2>Payment health</h2>
+                <p>Automatic operational assessment</p>
+              </div>
+            </div>
+            <div id="payment-health"></div>
+          </article>
+          <article class="panel span2">
+            <div class="panel-title">
+              <div>
+                <h2>Live transaction activity</h2>
+                <p>50 records per page</p>
+              </div>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Customer</th>
+                    <th>Product</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Response</th>
+                    <th>Transaction</th>
+                    <th>Time</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="orders-table"></tbody>
+              </table>
+            </div>
+            <div class="pager">
+              <button id="orders-prev">Previous</button
+              ><span id="orders-foot"></span
+              ><button id="orders-next">Next</button>
+            </div>
+          </article>
+        </div>
+      </section>
+      <section class="tabpage" id="tab-offers">
+        <div class="section-head">
+          <div>
+            <h1>Offer Performance</h1>
+            <p>Front-end and backend monetization by product.</p>
+          </div>
+        </div>
+        <div id="offer-kpis" class="kpi-grid compact"></div>
+        <article class="panel">
+          <div class="panel-title">
+            <div>
+              <h2>Offer scorecard</h2>
+              <p>Attempts, approvals, take rate and revenue</p>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Offer</th>
+                  <th>People</th>
+                  <th>Attempts</th>
+                  <th>Approvals</th>
+                  <th>Declines</th>
+                  <th>Approval rate</th>
+                  <th>Revenue</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="offer-table"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+      <section class="tabpage" id="tab-acquisition">
+        <div class="section-head">
+          <div>
+            <h1>Acquisition Intelligence</h1>
+            <p>Source, campaign and traffic attribution quality.</p>
+          </div>
+        </div>
+        <div id="acq-kpis" class="kpi-grid compact"></div>
+        <div class="grid two">
+          <article class="panel">
+            <div class="panel-title">
+              <div>
+                <h2>Source and campaign</h2>
+                <p>Captured lead attribution</p>
+              </div>
+            </div>
+            <div id="attribution"></div>
+          </article>
+          <article class="panel">
+            <div class="panel-title">
+              <div>
+                <h2>Tracking readiness</h2>
+                <p>Campaign measurement quality</p>
+              </div>
+            </div>
+            <div id="tracking-health"></div>
+          </article>
+        </div>
+      </section>
+      <section class="tabpage" id="tab-leads">
+        <div class="lead-lock" id="lead-lock">
+          <div><strong>Lead data protected</strong><span>Enter the four-digit PIN to reveal this information for one hour.</span></div>
+          <button id="lead-unlock-button">Unlock lead data</button>
+        </div>
+        <div class="section-head">
+          <div>
+            <h1>Lead Intelligence</h1>
+            <p>Captured prospects and checkout abandoners.</p>
+          </div>
+          <div class="actions">
+            <input
+              id="lead-search"
+              placeholder="Search name, email or phone"
+            /><button id="lead-search-button">Search</button
+            ><a class="action-link" id="lead-export" href="/api/admin/leads/export"
+              >Export CSV</a
+            >
+          </div>
+        </div>
+        <article class="panel">
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Status</th>
+                  <th>Source</th>
+                  <th>Campaign</th>
+                  <th>Landing page</th>
+                  <th>Consent</th>
+                  <th>Captured</th>
+                </tr>
+              </thead>
+              <tbody id="leads-table"></tbody>
+            </table>
+          </div>
+          <div class="pager">
+            <button id="leads-prev">Previous</button
+            ><span id="leads-foot"></span><button id="leads-next">Next</button>
+          </div>
+        </article>
+      </section>
+      <section class="tabpage" id="tab-buyers">
+        <div class="section-head">
+          <div>
+            <h1>Buyer Intelligence</h1>
+            <p>Customer value, products and refund visibility.</p>
+          </div>
+          <div class="actions">
+            <input
+              id="sale-search"
+              placeholder="Search buyer name, email or phone"
+            /><button id="sale-search-button">Search</button
+            ><a class="action-link" href="/api/admin/sales/export"
+              >Export CSV</a
+            >
+          </div>
+        </div>
+        <article class="panel">
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Purchases</th>
+                  <th>Products</th>
+                  <th>Gross</th>
+                  <th>Refunds</th>
+                  <th>Net</th>
+                  <th>Last purchase</th>
+                </tr>
+              </thead>
+              <tbody id="sales-table"></tbody>
+            </table>
+          </div>
+          <div class="pager">
+            <button id="sales-prev">Previous</button
+            ><span id="sales-foot"></span><button id="sales-next">Next</button>
+          </div>
+        </article>
+      </section>
+      <section class="tabpage" id="tab-automation">
+        <div class="section-head">
+          <div>
+            <h1>Lead Operations</h1>
+            <p>Add leads and manage consent-based follow-up.</p>
+          </div>
+        </div>
+        <div class="grid two">
+          <article class="panel">
+            <h2>Add lead</h2>
+            <form id="lead-form">
+              <div class="form-row">
+                <input name="first_name" placeholder="First name" /><input
+                  name="last_name"
+                  placeholder="Last name"
+                />
+              </div>
+              <input name="email" type="email" placeholder="Email" /><input
+                name="phone"
+                type="tel"
+                placeholder="Phone (+1…)"
+                required
+              /><label class="check"
+                ><input type="checkbox" name="email_consent" /> Email consent
+                recorded</label
+              ><label class="check"
+                ><input type="checkbox" name="sms_consent" /> SMS consent
+                recorded</label
+              ><button>Add lead</button>
+            </form>
+          </article>
+          <article class="panel">
+            <h2>Follow-up automation</h2>
+            <div class="notice">
+              Messages only send to leads with recorded consent.
+            </div>
+            <form id="automation-form">
+              <input type="hidden" name="id" /><input
+                name="name"
+                placeholder="Automation name"
+                required
+              />
+              <div class="form-row">
+                <select name="channel">
+                  <option value="email">Email</option>
+                  <option value="sms">SMS text</option></select
+                ><input name="delay_minutes" type="number" min="0" value="5" />
+              </div>
+              <input name="subject" placeholder="Email subject" /><textarea
+                name="message"
+                placeholder="Hi {{first_name}}, thanks for checking out Push Button Cash…"
+                required
+              ></textarea
+              ><label class="check"
+                ><input type="checkbox" name="enabled" /> Enabled</label
+              ><button>Save automation</button>
+            </form>
+            <div id="automations"></div>
+          </article>
+        </div>
+      </section>
+    </main>
+    <div class="toast" id="toast"></div>
+    <script src="/assets/admin.js" defer></script>
+  </body>
+</html>

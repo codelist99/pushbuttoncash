@@ -5,7 +5,12 @@
   "type": "module",
   "scripts": {
     "start": "node server.mjs",
-    "check": "node --check server.mjs && node --check funnel.js && node --check admin/admin.js"
+    "check": "node --check server.mjs && node --check funnel.js && node --check public/admin.js && node --check public/tracker.js"
   },
-  "engines": { "node": ">=20" }
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.2"
+  }
 }
