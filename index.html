@@ -1172,7 +1172,7 @@
     <!-- Add Query string and TID to Checkout Link -->
     <script>
         (function () {
-            var BASE = "https://www.fanbasis.com/agency-checkout/accufy2/o2GYY/";
+            var BASE = "/checkout";
 
             function getParam(name) {
                 return new URLSearchParams(window.location.search).get(name);
@@ -1207,12 +1207,12 @@
             // 4) final URL
             var queryParams = new URLSearchParams(window.location.search);
             if (tid) queryParams.set("_ef_transaction_id", tid);
-            var finalUrl = BASE + encodeURIComponent(tid) + (queryParams.toString() ? "?" + queryParams.toString() : "");
+            var finalUrl = BASE + (queryParams.toString() ? "?" + queryParams.toString() : "");
 
             var btn = document.getElementById("ctaBtn");
             if (btn) btn.href = finalUrl;
         })();
     </script>
-<script src="tracker.js"></script></body>
+<script src="/assets/tracker.js"></script></body>
 
 </html>
