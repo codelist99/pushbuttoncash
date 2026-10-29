@@ -1,5 +1,12 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "api/index.mjs": {
+      "includeFiles": "{*.html,*.css,*.js,public}/**",
+      "maxDuration": 30
+    }
+  },
   "rewrites": [
-    { "source": "/api/:path*", "destination": "/api?__path=:path*" }
+    { "source": "/(.*)", "destination": "/api/index?__path=/$1" }
   ]
 }
